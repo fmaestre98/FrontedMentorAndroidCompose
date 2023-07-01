@@ -51,6 +51,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -234,7 +235,8 @@ fun AddToCartComponent(modifier: Modifier = Modifier) {
                 text = "$250.00",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.LightGray
+                color = Color.LightGray,
+                textDecoration = TextDecoration.LineThrough
             )
 
         }
