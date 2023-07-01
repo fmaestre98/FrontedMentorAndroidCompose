@@ -1,0 +1,180 @@
+{
+  ConstraintSets: {
+    start: {
+      first_text: {
+        width: 120,
+        height: 40,
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+        top: [
+          'parent',
+          'top',
+          0
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          0
+        ],
+      },
+      second_text: {
+        width: 120,
+        height: 40,
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+        top: [
+          'first_text',
+          'top',
+          0
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          0
+        ]
+      },
+      box: {
+        width: "spread",
+        height: 160,
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+        top: [
+          'parent',
+          'top',
+          0
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          0
+        ],
+      }
+    },
+    end: {
+      first_text: {
+        width: 120,
+        height: 30,
+        start: [
+          'parent',
+          'start',
+          -46
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          26
+        ],
+      },
+      second_text: {
+        width: 120,
+        height: 30,
+        start: [
+          'first_text',
+          'end',
+          -86
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          26
+        ]
+      },
+      box: {
+        width: "spread",
+        height: 20,
+        start: [
+          'parent',
+          'start',
+          0
+        ],
+        end: [
+          'parent',
+          'end',
+          0
+        ],
+        top: [
+          'parent',
+          'top',
+          0
+        ],
+        bottom: [
+          'parent',
+          'bottom',
+          0
+        ],
+      }
+    }
+  },
+  Transitions: {
+    default: {
+      from: 'start',
+      to: 'end',
+      pathMotionArc: 'startHorizontal',
+      KeyFrames: {
+        KeyAttributes: [
+          {
+            target: [
+              'first_text'
+            ],
+            frames: [
+              0,
+              100
+            ],
+          },
+          {
+            target: [
+              'second_text'
+            ],
+            frames: [
+              0,
+              100
+            ],
+          },
+          {
+            target: [
+              'box'
+            ],
+            frames: [
+              0,
+              100
+            ]
+          }
+        ],
+      }
+    }
+  }
+}
