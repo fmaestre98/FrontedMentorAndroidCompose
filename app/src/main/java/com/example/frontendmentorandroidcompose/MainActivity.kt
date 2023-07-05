@@ -27,7 +27,9 @@ import com.example.frontendmentorandroidcompose.presentation.LinkSharingApp.Link
 import com.example.frontendmentorandroidcompose.presentation.ResultSummaryComponent
 import com.example.frontendmentorandroidcompose.presentation.TipCalculatorApp
 import com.example.frontendmentorandroidcompose.ui.theme.FrontendMentorAndroidComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {

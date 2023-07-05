@@ -1,12 +1,9 @@
 package com.example.frontendmentorandroidcompose.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
@@ -18,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,11 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,12 +47,16 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.frontendmentorandroidcompose.R
+import com.example.frontendmentorandroidcompose.presentation.TipCalculatorApp.TipCalculatorViewModel
 import com.example.frontendmentorandroidcompose.ui.theme.FrontendMentorAndroidComposeTheme
+import kotlin.reflect.KFunction0
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
-fun TipCalculatorApp() {
+fun TipCalculatorApp(viewModel: TipCalculatorViewModel = hiltViewModel()) {
+    val uiState = viewModel.uiState
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     val motionScene = remember {
@@ -74,7 +76,9 @@ fun TipCalculatorApp() {
             motionScene = MotionScene(content = motionScene),
             progress = (scrollState.value.toFloat()) / scrollState.maxValue.toFloat(),
             modifier = Modifier
-                .fillMaxWidth().height(130.dp).defaultMinSize(minHeight = 30.dp)
+                .fillMaxWidth()
+                .height(130.dp)
+                .defaultMinSize(minHeight = 30.dp)
 
 
         ) {
@@ -114,13 +118,28 @@ fun TipCalculatorApp() {
 
         ) {
             Bill(
+                bill = uiState.value.bill.toString(),
+                onBillChange = viewModel::onBillChange,
                 modifier = Modifier.padding(vertical = 22.dp, horizontal = 25.dp)
             )
-            SelectTip(modifier = Modifier.padding(vertical = 8.dp, horizontal = 25.dp))
+            SelectTip(
+                tipPercent = uiState.value.tipPercent,
+                onTipPercentChange = viewModel::onTipPercentChange,
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 25.dp)
+            )
 
-            NumberOfPeople(modifier = Modifier.padding(vertical = 18.dp, horizontal = 25.dp))
+            NumberOfPeople(
+                numberPeople = uiState.value.numberPeople.toString(),
+                onNumberPeopleChange = viewModel::onNumberPeopleChange,
+                modifier = Modifier.padding(vertical = 18.dp, horizontal = 25.dp)
+            )
 
-            CardResult(modifier = Modifier.padding(vertical = 16.dp, horizontal = 25.dp))
+            CardResult(
+                tipAmount = uiState.value.tipAmount.toString(),
+                total = uiState.value.total.toString(),
+                onReset = viewModel::resetCalculate,
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 25.dp)
+            )
 
         }
 
@@ -130,7 +149,7 @@ fun TipCalculatorApp() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Bill(modifier: Modifier = Modifier) {
+fun Bill(modifier: Modifier = Modifier, bill: String, onBillChange: (String) -> Unit) {
     Column(
         modifier = modifier
             .fillMaxWidth(), horizontalAlignment = Alignment.Start
@@ -138,8 +157,8 @@ fun Bill(modifier: Modifier = Modifier) {
         Text(text = "Bill", fontSize = 18.sp, color = Color.Gray)
         Spacer(modifier = Modifier.height(6.dp))
         TextField(
-            value = "142.55",
-            onValueChange = {},
+            value = bill,
+            onValueChange = { onBillChange(it) },
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
@@ -147,8 +166,9 @@ fun Bill(modifier: Modifier = Modifier) {
             textStyle = TextStyle(
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 20.sp,
             ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             colors = TextFieldDefaults.textFieldColors(containerColor = Color(0xFFF2F9FB)),
             leadingIcon = {
                 Icon(
@@ -163,7 +183,11 @@ fun Bill(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SelectTip(modifier: Modifier = Modifier) {
+fun SelectTip(
+    modifier: Modifier = Modifier,
+    tipPercent: Int,
+    onTipPercentChange: (String) -> Unit
+) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Text(
             text = "Select Tip %",
@@ -177,25 +201,43 @@ fun SelectTip(modifier: Modifier = Modifier) {
                 .height(45.dp)
         ) {
             Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF024A48)),
-                onClick = {},
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (tipPercent == 5) Color(
+                        0xFF27C1AD
+                    ) else Color(0xFF024A48)
+                ),
+                onClick = { onTipPercentChange("5") },
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "5%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "5%",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = if (tipPercent == 5) Color(0xFF024A48) else Color.White
+                )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF024A48)),
+                onClick = { onTipPercentChange("10") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (tipPercent == 10) Color(
+                        0xFF27C1AD
+                    ) else Color(0xFF024A48)
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "10%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "10%",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = if (tipPercent == 10) Color(0xFF024A48) else Color.White
+                )
             }
         }
 
@@ -205,8 +247,12 @@ fun SelectTip(modifier: Modifier = Modifier) {
                 .height(45.dp)
         ) {
             Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C1AD)),
-                onClick = {},
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (tipPercent == 15) Color(
+                        0xFF27C1AD
+                    ) else Color(0xFF024A48)
+                ),
+                onClick = { onTipPercentChange("15") },
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
@@ -216,19 +262,28 @@ fun SelectTip(modifier: Modifier = Modifier) {
                     text = "15%",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF024A48)
+                    color = if (tipPercent == 15) Color(0xFF024A48) else Color.White
                 )
             }
             Spacer(modifier = Modifier.width(18.dp))
             Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF024A48)),
+                onClick = { onTipPercentChange("25") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (tipPercent == 25) Color(
+                        0xFF27C1AD
+                    ) else Color(0xFF024A48)
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "25%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "25%",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = if (tipPercent == 25) Color(0xFF024A48) else Color.White
+                )
             }
         }
 
@@ -238,41 +293,39 @@ fun SelectTip(modifier: Modifier = Modifier) {
                 .height(45.dp)
         ) {
             Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF024A48)),
-                onClick = {},
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text(text = "50%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            }
-            Spacer(modifier = Modifier.width(18.dp))
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD6E6E2)),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (tipPercent == 50) Color(
+                        0xFF27C1AD
+                    ) else Color(0xFF024A48)
+                ),
+                onClick = { onTipPercentChange("50") },
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(
-                    text = "  Custom",
+                    text = "50%",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(
-                        0xFF036865
-                    ),
-                    textAlign = TextAlign.End
+                    color = if (tipPercent == 50) Color(0xFF024A48) else Color.White
                 )
             }
+            Spacer(modifier = Modifier.width(18.dp))
+            Spacer(modifier = Modifier.weight(1f))
+
+
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NumberOfPeople(modifier: Modifier = Modifier) {
+fun NumberOfPeople(
+    modifier: Modifier = Modifier,
+    numberPeople: String,
+    onNumberPeopleChange: (String) -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxWidth(), horizontalAlignment = Alignment.Start
@@ -280,8 +333,8 @@ fun NumberOfPeople(modifier: Modifier = Modifier) {
         Text(text = "Number of People", fontSize = 18.sp, color = Color.Gray)
         Spacer(modifier = Modifier.height(6.dp))
         TextField(
-            value = "5",
-            onValueChange = {},
+            value = numberPeople,
+            onValueChange = { onNumberPeopleChange(it) },
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
@@ -289,8 +342,9 @@ fun NumberOfPeople(modifier: Modifier = Modifier) {
             textStyle = TextStyle(
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp
+                fontSize = 20.sp
             ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.textFieldColors(containerColor = Color(0xFFF2F9FB)),
             leadingIcon = {
                 Icon(
@@ -305,7 +359,12 @@ fun NumberOfPeople(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CardResult(modifier: Modifier = Modifier) {
+fun CardResult(
+    modifier: Modifier = Modifier,
+    total: String,
+    tipAmount: String,
+    onReset: KFunction0<Unit>
+) {
     Card(
         modifier = modifier
             .fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color(0xFF024A48))
@@ -325,7 +384,7 @@ fun CardResult(modifier: Modifier = Modifier) {
                     Text(text = "/ person", color = Color.LightGray)
                 }
                 Text(
-                    text = "$4.27",
+                    text = "$${tipAmount}",
                     color = Color(0xFF27C1AD),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
@@ -343,7 +402,7 @@ fun CardResult(modifier: Modifier = Modifier) {
                     Text(text = "/ person", color = Color.LightGray)
                 }
                 Text(
-                    text = "$32,79",
+                    text = "$${total}",
                     color = Color(0xFF27C1AD),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
@@ -353,7 +412,7 @@ fun CardResult(modifier: Modifier = Modifier) {
 
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C1AD)),
-                onClick = {},
+                onClick = { onReset() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),

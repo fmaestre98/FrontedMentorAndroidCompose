@@ -3,8 +3,11 @@ package com.example.frontendmentorandroidcompose.presentation.LinkSharingApp
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LinksAppViewModel : ViewModel() {
+@HiltViewModel
+class LinksAppViewModel @Inject constructor(): ViewModel() {
 
     private val _linksList: MutableList<Pair<String, String>> =
         mutableStateListOf(
