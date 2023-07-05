@@ -3,6 +3,7 @@ package com.example.frontendmentorandroidcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +14,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -21,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendmentorandroidcompose.presentation.EcommerceProductPage
 import com.example.frontendmentorandroidcompose.presentation.ExamplesList
+import com.example.frontendmentorandroidcompose.presentation.LinkSharingApp.LinkSharingApp
 import com.example.frontendmentorandroidcompose.presentation.ResultSummaryComponent
 import com.example.frontendmentorandroidcompose.presentation.TipCalculatorApp
 import com.example.frontendmentorandroidcompose.ui.theme.FrontendMentorAndroidComposeTheme
@@ -43,7 +46,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FrontExamplesNavHost(navController = navController,windowSize=windowSize)
+                    FrontExamplesNavHost(
+                        navController = navController,
+                        windowSize = windowSize,
+                        modifier = Modifier.background(
+                            Color.Transparent
+                        )
+                    )
                 }
             }
         }
@@ -54,18 +63,19 @@ class MainActivity : ComponentActivity() {
 fun FrontExamplesNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    windowSize: WindowSizeClass,) {
+    windowSize: WindowSizeClass,
+) {
     NavHost(
         navController = navController,
         startDestination = "LIST",
         modifier = modifier
     ) {
         composable(route = "LIST") {
-           ExamplesList( navController = navController )
+            ExamplesList(navController = navController)
         }
 
         composable(route = "Results summary component") {
-          ResultSummaryComponent(windowSize =windowSize.widthSizeClass)
+            ResultSummaryComponent(windowSize = windowSize.widthSizeClass)
         }
 
         composable(
@@ -77,8 +87,14 @@ fun FrontExamplesNavHost(
         composable(
             route = "E-commerce product page",
         ) {
-           EcommerceProductPage()
+            EcommerceProductPage()
         }
+        composable(
+            route = "Link-sharing app",
+        ) {
+           LinkSharingApp()
+        }
+
 
     }
 }

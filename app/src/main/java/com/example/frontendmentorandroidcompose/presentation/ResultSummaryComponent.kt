@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -59,8 +61,7 @@ fun ResultSummaryComponent(modifier: Modifier = Modifier, windowSize: WindowWidt
                     modifier = Modifier
                         .padding(vertical = 25.dp, horizontal = 25.dp)
                         .fillMaxWidth()
-                        .height(65.dp)
-                        .weight(.3f),
+                        .height(65.dp),
 
                     ) {
                     Text(text = "Continue", fontSize = 18.sp, color = Color(0xFFBFAAFE))
@@ -75,23 +76,23 @@ fun ResultSummaryComponent(modifier: Modifier = Modifier, windowSize: WindowWidt
             Scored(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
+                    .weight(.9f)
             )
             Summary(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1.1f)
-                    .padding(30.dp)
+                    .weight(1f)
+                    .padding(20.dp)
             )
 
             Button(
                 colors = ButtonDefaults.buttonColors(contentColor = Color(0xFF303B5A)),
                 onClick = { },
                 modifier = Modifier
-                    .padding(vertical = 25.dp, horizontal = 25.dp)
+                    .padding(vertical = 10.dp, horizontal = 25.dp)
                     .fillMaxWidth()
                     .height(65.dp)
-                    .weight(.3f),
+                    .weight(.2f),
 
                 ) {
                 Text(text = "Continue", fontSize = 18.sp, color = Color(0xFFBFAAFE))
@@ -125,9 +126,9 @@ fun Scored(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Brush.verticalGradient(colorStops = colorsCard))
-                .padding(top = 18.dp),
+                .padding(top = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             Text(
                 text = "Your Result",
@@ -139,20 +140,20 @@ fun Scored(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .height(155.dp)
-                    .width(155.dp)
+                    .height(145.dp)
+                    .width(145.dp)
                     .background(Brush.verticalGradient(colorStops = colorsCircle)),
                 contentAlignment = Alignment.Center
             ) {
                 Column {
                     Text(
                         text = "76",
-                        fontSize = 52.sp,
+                        fontSize = 50.sp,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
 
                         )
-                    Text(text = "of 100", color = Color(0xFF5B4EE2), fontSize = 18.sp)
+                    Text(text = "of 100", color = Color(0xFF5B4EE2), fontSize = 16.sp)
                 }
 
             }
@@ -184,7 +185,8 @@ fun Scored(modifier: Modifier = Modifier) {
 
 @Composable
 fun Summary(modifier: Modifier = Modifier) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(20.dp)) {
+    val scrollState= rememberScrollState()
+    Column(modifier = modifier.verticalScroll(scrollState), verticalArrangement = Arrangement.spacedBy(20.dp)) {
         Text(text = "Summary", fontWeight = FontWeight.Bold, fontSize = 20.sp)
 
         SumaryItem(

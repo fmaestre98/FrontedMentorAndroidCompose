@@ -43,6 +43,14 @@ fun ExamplesList(modifier: Modifier = Modifier, navController: NavHostController
             color = Color.Blue,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.clickable { navController.navigate("E-commerce product page") })
+        Text(
+            text = "Link-sharing app",
+            fontSize = 20.sp,
+            color = Color.Blue,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.clickable { navController.navigate("Link-sharing app") })
+
+
     }
 
 

@@ -74,7 +74,7 @@ fun TipCalculatorApp() {
             motionScene = MotionScene(content = motionScene),
             progress = (scrollState.value.toFloat()) / scrollState.maxValue.toFloat(),
             modifier = Modifier
-                .fillMaxWidth().height(160.dp).defaultMinSize(minHeight = 30.dp)
+                .fillMaxWidth().height(130.dp).defaultMinSize(minHeight = 30.dp)
 
 
         ) {
@@ -174,7 +174,7 @@ fun SelectTip(modifier: Modifier = Modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(45.dp)
         ) {
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF024A48)),
@@ -184,7 +184,7 @@ fun SelectTip(modifier: Modifier = Modifier) {
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "5%", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                Text(text = "5%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(
@@ -195,14 +195,14 @@ fun SelectTip(modifier: Modifier = Modifier) {
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "10%", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                Text(text = "10%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
             }
         }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(45.dp)
         ) {
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF27C1AD)),
@@ -214,7 +214,7 @@ fun SelectTip(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "15%",
-                    fontSize = 25.sp,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF024A48)
                 )
@@ -228,14 +228,14 @@ fun SelectTip(modifier: Modifier = Modifier) {
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "25%", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                Text(text = "25%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
             }
         }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(55.dp)
+                .height(45.dp)
         ) {
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF024A48)),
@@ -245,7 +245,7 @@ fun SelectTip(modifier: Modifier = Modifier) {
                     .fillMaxHeight(),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "50%", fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                Text(text = "50%", fontSize = 22.sp, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.width(18.dp))
             Button(
@@ -257,8 +257,8 @@ fun SelectTip(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(
-                    text = "    Custom",
-                    fontSize = 25.sp,
+                    text = "  Custom",
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(
                         0xFF036865
@@ -285,7 +285,7 @@ fun NumberOfPeople(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth()
-                .height(60.dp),
+                .height(55.dp),
             textStyle = TextStyle(
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Bold,
@@ -311,7 +311,7 @@ fun CardResult(modifier: Modifier = Modifier) {
             .fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color(0xFF024A48))
     ) {
         Column(
-            modifier = Modifier.padding(top = 32.dp, bottom = 22.dp, start = 25.dp, end = 25.dp),
+            modifier = Modifier.padding(top = 26.dp, bottom = 22.dp, start = 25.dp, end = 25.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -72,8 +73,11 @@ fun EcommerceProductPage() {
         R.drawable.snakers4
     )
     Scaffold(topBar = { TopBar() }) {
+        val scrollState= rememberScrollState()
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             ImagesSlider(sneakers = sneakers)
@@ -93,7 +97,7 @@ fun ImagesSlider(modifier: Modifier = Modifier, sneakers: List<Int>) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(350.dp)
+            .height(330.dp)
     ) {
         HorizontalPager(pageCount = sneakers.size, state = pagerState, key = { sneakers[it] }) {
             Image(
@@ -157,7 +161,7 @@ fun ImagesSlider(modifier: Modifier = Modifier, sneakers: List<Int>) {
 fun BodyText(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .padding(vertical = 10.dp, horizontal = 25.dp)
+            .padding(vertical = 10.dp, horizontal = 18.dp)
             .fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
         Text(
@@ -167,32 +171,32 @@ fun BodyText(modifier: Modifier = Modifier) {
             fontSize = 15.sp
         )
         Column(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Fall Limited Edition", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Text(text = "Sneakers", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Fall Limited Edition", fontSize = 26.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Sneakers", fontSize = 26.sp, fontWeight = FontWeight.Bold)
         }
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = "These low-profile snakers are you perfect",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Normal,
                 color = Color.Gray
             )
             Text(
                 text = "casual wear companion. Featuring a durable",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Normal,
                 color = Color.Gray
             )
             Text(
                 text = "rubber outer sole, they'll withstand everything",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Normal,
                 color = Color.Gray
             )
             Text(
                 text = "the weather can offer.",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Normal,
                 color = Color.Gray
             )
 
